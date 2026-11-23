@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Achille Pommier-Raymond</title>
+<meta name="description" content="Portfolio BTS SIO SISR — Achille Pommier-Raymond. Parcours, projets, stages, compétences et veille technologique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky header + one view per hash route; home is a long scroll, inner pages are focused sheets. Single dark theme by choice. */
+:root{
+  --bg:#0c1016; --surface:#131924; --surface-2:#1a2230; --line:#253041;
+  --text:#ece8e1; --muted:#929bab; --accent:#f5a524; --accent-2:#ff7a1a; --ok:#3ecf8e;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --r:14px; --max:1120px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--body);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;background-attachment:fixed;background-blend-mode:normal}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(1200px 600px at 75% -10%,rgba(245,165,36,.10),transparent 60%),linear-gradient(var(--bg) 0,rgba(12,16,22,.93) 100%);z-index:-1;pointer-events:none}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;letter-spacing:-.02em}
+h3{font-size:1.25rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+/* Header */
+header{position:sticky;top:0;z-index:20;background:rgba(12,16,22,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-family:var(--display);font-weight:800;font-size:1.05rem;white-space:nowrap}
+.brand .tag{font:500 .72rem var(--mono);color:var(--bg);background:var(--accent);padding:2px 7px;border-radius:5px}
+.brand span.l{color:var(--accent)}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:7px 11px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:.92rem;white-space:nowrap}
+nav a:hover{color:var(--text);background:var(--surface)}
+nav a[aria-current="page"]{color:var(--accent);background:rgba(245,165,36,.10)}
+#menu{display:none;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:500 .9rem var(--body);cursor:pointer}
+@media (max-width:980px){
+  #menu{display:block}
+  nav{position:absolute;left:0;right:0;top:64px;background:var(--bg);border-bottom:1px solid var(--line);display:none}
+  nav.open{display:block}
+  nav ul{flex-direction:column;padding:10px 20px 16px}
+}
+
+/* Generic blocks */
+section.block{padding:72px 0 0}
+.eyebrow{font:500 .78rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:block}
+.lead{color:var(--muted);max-width:62ch;margin-top:14px;font-size:1.05rem}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.card h3+p,.card h3+ul{margin-top:10px}
+.muted{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .78rem var(--mono);padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--text)}
+.chip.a{border-color:rgba(245,165,36,.4);color:var(--accent);background:rgba(245,165,36,.08)}
+.todo{display:inline-flex;align-items:center;gap:6px;font:500 .78rem var(--mono);color:var(--accent);border:1px dashed rgba(245,165,36,.6);border-radius:6px;padding:3px 9px;background:rgba(245,165,36,.05)}
+.todo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+ul.list{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+ul.list li{position:relative;padding-left:20px}
+ul.list li::before{content:"";position:absolute;left:2px;top:.68em;width:8px;height:2px;background:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none;border:1px solid var(--line);color:var(--text);background:var(--surface);cursor:pointer;font-family:var(--body);font-size:.95rem}
+.btn.p{background:var(--accent);color:#1a1205;border-color:var(--accent)}
+.btn:hover{transform:translateY(-1px)}
+.btn{transition:transform .15s}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:10px 18px}
+.kv dt{font:500 .76rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.kv dd{margin:0}
+@media (max-width:560px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:12px}}
+
+/* Hero */
+.hero{padding:72px 0 24px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+@media (max-width:900px){.hero{grid-template-columns:1fr;padding-top:48px}}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.3rem);font-weight:800;letter-spacing:-.035em}
+.hero h1 .name{display:block;background:linear-gradient(95deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.06em}
+.hero h1 .hi{display:block;font-size:.42em;font-weight:600;letter-spacing:-.01em;color:var(--muted);margin-bottom:10px}
+.hero .sub{font-size:1.15rem;margin-top:18px;font-weight:500}
+.hero p.desc{color:var(--muted);max-width:56ch;margin-top:10px}
+.hero .row{margin-top:28px}
+.term{background:#090c11;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 30px 80px -30px rgba(245,165,36,.25);font:13.5px/1.75 var(--mono)}
+.term .top{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface)}
+.term .top i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.term .top span{margin-left:8px;color:var(--muted);font-size:12px}
+.term pre{margin:0;padding:18px 18px 20px;white-space:pre-wrap;color:#c9cfd8;overflow-x:auto}
+.term .p{color:var(--ok)} .term .c{color:var(--accent)} .term .d{color:var(--muted)}
+.term .up{color:var(--ok)}
+.cursor{display:inline-block;width:8px;height:1.1em;vertical-align:-3px;background:var(--accent);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.ticker{border-block:1px solid var(--line);margin-top:56px;overflow:hidden;background:rgba(19,25,36,.6)}
+.ticker div{display:flex;gap:40px;width:max-content;padding:14px 0;animation:slide 40s linear infinite;font:500 .8rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ticker b{color:var(--accent);font-weight:500}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* Timeline */
+.tl{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s}
+.tl li{position:relative;padding:28px 18px 0 0;border-top:2px solid var(--line)}
+.tl li::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.tl li.done::before{background:var(--accent)}
+.tl .yr{font:500 .78rem var(--mono);color:var(--accent);letter-spacing:.06em}
+.tl h3{margin:6px 0 6px;font-size:1.1rem}
+.tl p{color:var(--muted);font-size:.92rem}
+@media (max-width:900px){.tl{grid-template-columns:1fr;gap:0}.tl li{border-top:0;border-left:2px solid var(--line);padding:0 0 26px 24px}.tl li::before{left:-7px;top:4px}}
+
+/* Skills */
+.skillgrp h3{font:500 .78rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+
+/* Project feature */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+@media (max-width:900px){.feat{grid-template-columns:1fr}}
+.shot{border-radius:10px;border:1px solid var(--line);overflow:hidden;background:#000;cursor:zoom-in;padding:0;width:100%;text-align:left;color:inherit;font:inherit}
+.shot img{width:100%;height:auto}
+figure{margin:0}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:8px}
+.ph{border:1px dashed var(--line);border-radius:10px;min-height:170px;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font-size:.9rem;background:rgba(19,25,36,.5)}
+.ph b{display:block;font:500 .74rem var(--mono);letter-spacing:.12em;color:var(--accent);margin-bottom:6px}
+
+/* Page header for inner views */
+.phead{padding:64px 0 8px;border-bottom:1px solid var(--line)}
+.phead h1{font-size:clamp(2.4rem,5.5vw,4rem);font-weight:800;letter-spacing:-.03em}
+.phead .lead{margin-bottom:36px}
+
+/* Accordion */
+details.acc{border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+details.acc+details.acc{margin-top:10px}
+details.acc summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:"+";font:500 1.2rem var(--mono);color:var(--accent)}
+details.acc[open] summary::after{content:"−"}
+details.acc .in{padding:0 20px 20px;display:grid;gap:14px}
+details.acc h4{font:500 .74rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+
+/* Stages */
+.stage{margin-top:40px}
+.stage-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:end;margin-bottom:22px}
+.stage-h h2{font-size:clamp(1.7rem,3.4vw,2.3rem)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.gallery .shot img{aspect-ratio:16/10;object-fit:cover;object-position:top left}
+.gallery .shot img.wide{object-fit:contain;object-position:center}
+
+/* Veille */
+.month{font:500 .82rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:30px 0 14px;display:flex;align-items:center;gap:12px}
+.month::after{content:"";flex:1;height:1px;background:var(--line)}
+.art .meta{display:flex;flex-wrap:wrap;gap:8px 14px;font:500 .78rem var(--mono);color:var(--muted);margin-bottom:10px}
+.art h3{font-size:1.15rem;margin-bottom:10px}
+.art .pert{font-size:.88rem;color:var(--accent);margin-bottom:10px}
+.art p.res{color:#c6ccd6;font-size:.95rem}
+.art .go{margin-top:14px;display:inline-block;font-weight:600;font-size:.92rem}
+
+/* Guide */
+.rule .n{font:500 .8rem var(--mono);color:var(--accent)}
+.rule h3{margin:4px 0 12px}
+
+/* Contact */
+.cta{margin:88px 0 0;padding:40px;border-radius:20px;border:1px solid rgba(245,165,36,.35);background:linear-gradient(120deg,rgba(245,165,36,.12),rgba(255,122,26,.04) 60%,transparent);display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+.cta h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+
+footer{margin-top:96px;border-top:1px solid var(--line);padding:32px 0 40px;color:var(--muted);font-size:.88rem}
+footer .row{justify-content:space-between}
+footer nav{position:static;display:block;background:none;border:0}
+footer nav ul{flex-direction:row;flex-wrap:wrap;padding:0}
+
+/* Lightbox */
+#lb{position:fixed;inset:0;z-index:50;background:rgba(5,7,10,.92);display:none;align-items:center;justify-content:center;padding:24px;flex-direction:column;gap:12px}
+#lb.on{display:flex}
+#lb img{max-height:82vh;max-width:min(1400px,100%);border-radius:8px;border:1px solid var(--line)}
+#lb p{color:var(--muted)}
+#lb button{position:absolute;top:16px;right:16px}
+.view[hidden]{display:none}
+.copied{font:500 .78rem var(--mono);color:var(--ok)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#accueil"><span class="tag">SISR</span>Achille <span class="l">Pommier-Raymond</span></a>
+    <button id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" aria-label="Navigation principale"><ul id="navlist"></ul></nav>
+  </div>
+</header>
+
+<main id="app" class="wrap"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div><strong style="color:var(--text)">Achille Pommier-Raymond</strong><br>Portfolio BTS SIO SISR – 2026</div>
+      <nav aria-label="Navigation de pied de page"><ul id="footnav"></ul></nav>
+    </div>
+    <p style="margin-top:18px">Lycée de la CCI – Nîmes · BTS Services Informatiques aux Organisations, option SISR · 2024 - 2026</p>
+  </div>
+</footer>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Image agrandie">
+  <button class="btn" id="lbclose">Fermer ✕</button>
+  <img id="lbimg" alt="">
+  <p id="lbcap"></p>
+</div>
+
+<script>
+const TODO = (t='À compléter') => `<span class="todo">${t}</span>`;
+const PH = (title, sub='') => `<div class="ph"><div><b>IMAGE À AJOUTER</b>${title}${sub?`<br><span style="font-size:.82rem">${sub}</span>`:''}</div></div>`;
+const shot = (src, cap) => `<figure><button class="shot" data-src="${src}" data-cap="${cap}" aria-label="Agrandir : ${cap}"><img src="${src}" alt="${cap}" loading="lazy"${src.includes('nav.')?' class="wide"':''}></button><figcaption>${cap}</figcaption></figure>`;
+const list = items => `<ul class="list">${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+const chips = (items, cls='') => `<div class="chips">${items.map(i=>`<span class="chip ${cls}">${i}</span>`).join('')}</div>`;
+const head = (eyebrow, title, lead='') => `<div class="phead"><span class="eyebrow">${eyebrow}</span><h1>${title}</h1>${lead?`<p class="lead">${lead}</p>`:''}</div>`;
+const sec = (eyebrow, title, inner, lead='') => `<section class="block"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}<div style="margin-top:28px">${inner}</div></section>`;
+
+const ROUTES = [
+  ['accueil','Accueil'],['presentation','Présentation'],['ap1','AP1'],['ap2','AP2'],
+  ['stages','Stages'],['veille','Veille technologique'],['guide','Guide de bonne conduite'],['contact','Contact']
+];
+
+/* ---------- Données ---------- */
+const THERMES_GALLERY = [
+  ['img/thermes.webp','Les Thermes de Balaruc-les-Bains'],
+  ['img/dashboard.webp',"Dashboard de l'application de gestion de stock"],
+  ['img/stock.webp','Gestion du stock et des équipements'],
+  ['img/carte.webp','Carte interactive de localisation du matériel'],
+  ['img/audit.webp',"Journal d'audit et historique des actions"],
+  ['img/etiquette.webp',"Génération d'étiquettes avec codes-barres"],
+  ['img/glpi.webp','GLPI — suivi des tickets utilisateurs'],
+  ['img/phpmyadmin.webp','Base de données stock_app (phpMyAdmin)'],
+  ['img/xampp.webp','Serveur XAMPP (Apache, MySQL, PHP)'],
+  ['img/nav.webp',"Navigation de l'application TheStock"],
+  ['img/structure.webp','Structure du projet PHP sur le serveur'],
+];
+const STOCK_FEATURES = ['Suivi des équipements','Gestion des emplacements','Réservations avec gestion des conflits','Mouvements de stock',"Journal d'audit",'Carte interactive','Génération de codes-barres','Export CSV'];
+const STOCK_TECH = ['HTML','CSS','PHP','MySQL','XAMPP','Windows Server 2022'];
+
+const VEILLE = {
+  vr:{title:'Réalité virtuelle / réalité augmentée', tag:'VR / AR',
+    obj:"Suivre les évolutions des casques de réalité virtuelle, de réalité augmentée et de réalité mixte, les nouvelles technologies d'affichage, les lunettes connectées, les usages professionnels, les applications dans le jeu vidéo et les évolutions des principaux acteurs du marché.",
+    months:[
+      {label:'Septembre 2026', arts:[
+        {n:1,title:"J'ai essayé les lunettes de Google et Xreal (Aura) et je pense que les casques VR sont cuits",date:'22 mai 2026',src:'Numerama — Nicolas Lellouche',link:'https://www.numerama.com/tech/2258363-jai-essaye-les-lunettes-de-google-et-xreal-aura-et-je-pense-que-les-casques-vr-sont-cuits.html',pert:'Très élevée — réalité augmentée / Android XR',
+         res:"Google et Xreal ont présenté les lunettes Project Aura utilisant Android XR. Contrairement à un casque VR classique, ces lunettes permettent d'afficher des éléments numériques directement dans le champ de vision tout en conservant une vision du monde réel. Elles utilisent notamment des technologies de guide d'onde et des écrans Micro-OLED. Le projet montre l'évolution du secteur vers des appareils plus légers et plus faciles à utiliser au quotidien. Il constitue donc un très bon exemple de l'évolution de la réalité augmentée vers des lunettes pouvant remplacer progressivement certains usages des casques VR."},
+        {n:2,title:'Samsung et Google défient les Ray-Ban Meta avec des lunettes connectées nouvelle génération',date:'19 mai 2026',src:'Frandroid',link:'https://www.frandroid.com/marques/samsung/3104109_samsung-et-google-defient-les-ray-ban-meta-avec-des-lunettes-connectees-nouvelle-generation',pert:'Très élevée — Android XR / lunettes connectées',
+         res:"Samsung et Google ont présenté leurs nouvelles lunettes utilisant Android XR et Gemini. L'objectif est de rapprocher les assistants IA et la réalité augmentée des usages quotidiens. Les lunettes peuvent notamment utiliser des informations provenant de leur environnement pour proposer des interactions avec l'utilisateur. Cette évolution montre que les entreprises cherchent à déplacer progressivement certaines fonctions des smartphones vers des lunettes connectées. Elle illustre également le rapprochement entre intelligence artificielle et réalité augmentée."}
+      ]},
+      {label:'Octobre 2026', arts:[
+        {n:3,title:"Acer lance à son tour ses propres lunettes connectées, et la réalité augmentée est au menu",date:'4 juin 2026',src:'01net',link:'https://www.01net.com/actualites/acer-lance-a-son-tour-ses-propres-lunettes-connectees-et-la-realite-augmentee-est-au-menu.html',pert:'Très élevée — réalité augmentée',
+         res:"Acer a présenté deux modèles de lunettes connectées, dont les AR Vision GR0 conçues pour proposer une expérience de réalité augmentée. Le marché commence donc à accueillir de plus en plus de fabricants en plus de Meta, Google et Samsung. Cette évolution montre que les lunettes AR deviennent progressivement un secteur stratégique. L'article permet également de comparer différentes approches matérielles de la réalité augmentée. Il est intéressant pour suivre la démocratisation de cette technologie."},
+        {n:4,title:"Asus ROG Xreal R1 : Asus s'associe au leader des lunettes AR pour jouer sans écran",date:'18 mai 2026',src:'Frandroid',link:'https://www.frandroid.com/marques/asus/3100693_rog-xreal-r1-asus-sassocie-au-leader-des-lunettes-ar-pour-jouer-sans-ecran',pert:'Élevée — réalité augmentée / gaming',
+         res:"Asus s'est associé à Xreal pour développer les ROG Xreal R1, des lunettes destinées notamment au jeu vidéo. Elles intègrent des écrans directement dans les lunettes afin de permettre de jouer sans utiliser un écran classique. Ce projet montre que la réalité augmentée peut dépasser les usages professionnels ou expérimentaux pour s'intégrer dans le divertissement. Il illustre également l'évolution des écrans personnels vers des formats portables."}
+      ]},
+      {label:'Novembre 2026', arts:[
+        {n:5,title:"Meta réaffirme travailler sur plusieurs casques VR de nouvelle génération",date:'9 juillet 2026',src:'UploadVR — David Heaney',link:'https://www.uploadvr.com/meta-cto-reaffirms-work-on-multiple-next-generation-headsets-hin/',pert:'Élevée — réalité virtuelle',
+         res:"Meta a confirmé continuer à travailler sur plusieurs générations de casques de réalité virtuelle. Cette annonce intervient alors que l'entreprise a également réorienté une partie de ses investissements vers les lunettes connectées. Le développement de nouveaux casques montre toutefois que Meta n'abandonne pas complètement la réalité virtuelle. L'article permet donc de suivre l'évolution de la stratégie de l'un des principaux acteurs du marché VR."},
+        {n:6,title:"Meta ferme les portes du Métavers sur ses casques VR",date:'18 mars 2026',src:'Frandroid',link:'https://www.frandroid.com/marques/meta/3030837_meta-ferme-les-portes-du-metavers-sur-ses-casques-vr',pert:'Élevée — réalité virtuelle / métavers',
+         res:"Meta a annoncé une importante évolution concernant Horizon Worlds, son univers virtuel destiné notamment aux casques Quest. Cette décision montre que l'entreprise revoit ses ambitions concernant le métavers et la réalité virtuelle sociale. Le marché VR ne disparaît pas pour autant, mais les usages et les investissements évoluent. Cet article est intéressant car une veille technologique ne doit pas uniquement présenter les innovations : elle doit aussi montrer les échecs, les changements de stratégie et les limites d'une technologie."}
+      ]}
+    ]},
+  cyber:{title:'Cybersécurité dans les réseaux sociaux', tag:'Cybersécurité / réseaux sociaux',
+    obj:"Suivre les menaces et les évolutions de sécurité concernant les réseaux sociaux : piratage de comptes, phishing, vols d'identifiants, fuites de données, usurpation d'identité, logiciels malveillants, sécurité des messages privés, chiffrement, nouvelles protections des plateformes et arnaques diffusées sur les réseaux sociaux.",
+    months:[
+      {label:'Septembre 2026', arts:[
+        {n:1,title:'Des comptes Instagram se font encore pirater, Meta AI est-il toujours vulnérable ?',date:'4 juin 2026',src:'01net',link:'https://www.01net.com/actualites/des-comptes-instagram-se-font-encore-pirater-meta-ai-est-il-toujours-vulnerable.html',pert:'Très élevée — réseau social : Instagram',
+         res:"L'article parle d'une vulnérabilité liée à Meta AI qui permettait à des attaquants de prendre le contrôle de comptes Instagram. Le problème venait notamment du processus de récupération de compte et de la possibilité de modifier l'adresse e-mail associée. Meta a ensuite annoncé avoir corrigé le problème. C'est un excellent exemple de faille de sécurité directement liée à un réseau social. Il permet également de montrer qu'une fonctionnalité d'intelligence artificielle peut créer de nouveaux risques de cybersécurité."},
+        {n:2,title:'TikTok lance un outil « Security Checkup » pour sécuriser les comptes',date:'17 mars 2025',src:'TechCrunch — Aisha Malik',link:'https://techcrunch.com/2025/03/17/tiktok-rolls-out-a-security-checkup-tool-to-help-users-secure-their-accounts/',pert:'Très élevée — réseau social : TikTok',
+         res:"TikTok a lancé un outil appelé Security Checkup permettant aux utilisateurs de vérifier plusieurs paramètres de sécurité depuis un même endroit. L'outil encourage notamment l'activation de la double authentification et la vérification des appareils connectés. Il permet également de vérifier les informations utilisées pour récupérer un compte. Cette fonctionnalité montre comment un réseau social peut renforcer directement la sécurité de ses utilisateurs. C'est intéressant pour une veille BTS SIO car on peut faire le lien avec l'authentification et la protection des comptes."}
+      ]},
+      {label:'Octobre 2026', arts:[
+        {n:3,title:"Les consommateurs américains ont perdu 2,1 milliards de dollars à cause des arnaques sur les réseaux sociaux en 2025",date:'27 avril 2026',src:'TechCrunch — Aisha Malik',link:'https://techcrunch.com/2026/04/27/consumers-lost-2-1-billion-to-social-media-scams-in-2025-ftc-reports/',pert:'Très élevée — réseaux concernés : Facebook, WhatsApp, Instagram',
+         res:"Selon les données de la Federal Trade Commission, les arnaques provenant des réseaux sociaux ont causé environ 2,1 milliards de dollars de pertes aux États-Unis en 2025. Près de 30 % des personnes ayant déclaré avoir perdu de l'argent dans une arnaque indiquent que celle-ci avait commencé sur un réseau social. Facebook arrive en tête, suivi notamment de WhatsApp et Instagram. Cela montre que les réseaux sociaux sont devenus un vecteur important pour les cyberescroqueries. Cet article permet donc d'étudier le phishing, l'ingénierie sociale et les arnaques diffusées directement sur les plateformes sociales."},
+        {n:4,title:"TikTok ne prévoit pas de chiffrement de bout en bout pour ses messages privés",date:'4 mars 2026',src:'TechCrunch — Aisha Malik',link:'https://techcrunch.com/2026/03/04/tiktok-wont-add-end-to-end-encryption-to-direct-messages-report-says/',pert:'Élevée — réseau social : TikTok',
+         res:"TikTok a indiqué qu'il ne prévoyait pas d'ajouter de chiffrement de bout en bout à ses messages privés. L'entreprise explique notamment que ce type de chiffrement pourrait compliquer l'intervention des équipes de sécurité ou des autorités dans certaines situations. Les messages privés restent cependant protégés par un chiffrement classique. Cet article est particulièrement intéressant pour aborder la sécurité des communications sur les réseaux sociaux. Il permet aussi de comparer les choix de sécurité de TikTok avec ceux d'autres plateformes utilisant le chiffrement de bout en bout."}
+      ]},
+      {label:'Novembre 2026', arts:[
+        {n:5,title:"Cette nouvelle arnaque sophistiquée sur Instagram cible les jeunes parents",date:'19 mai 2025',src:'Numerama — Julien Cadot',link:'https://www.numerama.com/cyberguerre/1973065-cette-nouvelle-arnaque-sophistiquee-sur-instagram-cible-les-jeunes-parents.html',pert:'Très élevée — réseau social : Instagram',
+         res:"L'article présente une campagne de phishing diffusée via Instagram. Les victimes étaient attirées par un faux concours avant d'être redirigées vers une page destinée à récupérer leurs informations personnelles et bancaires. Les attaquants utilisaient plusieurs étapes pour rendre l'arnaque plus crédible. Ce type d'attaque montre que les réseaux sociaux peuvent servir de point de départ à une fraude beaucoup plus importante. C'est un bon exemple d'ingénierie sociale et de phishing adapté aux habitudes des utilisateurs d'Instagram."},
+        {n:6,title:"Le piratage de comptes en ligne en 2025",date:'1er juin 2026',src:'Cybermalveillance.gouv.fr',link:'https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/donnees-perso-piratage-compte-ra25',pert:'Élevée — réseaux concernés : réseaux sociaux',
+         res:"Cybermalveillance.gouv.fr explique que les comptes de réseaux sociaux restent fortement ciblés par les cybercriminels. Le phishing, les mots de passe faibles ou réutilisés et les logiciels malveillants font partie des principales méthodes utilisées pour compromettre les comptes. Une fois un compte récupéré, les attaquants peuvent notamment usurper l'identité de la victime ou contacter ses proches pour réaliser d'autres escroqueries. L'article permet donc de faire le lien entre le piratage d'un compte et les conséquences qui peuvent toucher son entourage."}
+      ]}
+    ]}
+};
+
+const COMP_PRO = [
+  ['Helpdesk',[
+    ["Ce que c'est","Le helpdesk est un service d'assistance informatique chargé d'aider les utilisateurs lorsqu'ils rencontrent des problèmes techniques."],
+    ['À quoi cela sert',"Il permet de centraliser les incidents, de suivre les demandes et d'assurer une résolution efficace des problèmes afin de garantir la continuité du service informatique."],
+    ['Mise en pratique',"Lors de mes stages, notamment à Montpellier Business School et aux Thermes de Balaruc-les-Bains, j'ai été amené à intervenir directement auprès des utilisateurs. J'ai utilisé GLPI pour gérer les tickets d'incident, diagnostiquer des pannes et apporter des solutions concrètes."]]],
+  ['Gestion du patrimoine informatique',[
+    ["Ce que c'est","La gestion du patrimoine informatique consiste à suivre et administrer l'ensemble du matériel et des ressources informatiques d'une organisation."],
+    ['Mise en pratique',"Au cours de mes stages, j'ai participé à l'inventaire du matériel informatique et à la vérification des postes, notamment pour les examens à Montpellier Business School. Aux Thermes de Balaruc, j'ai également développé une application web de gestion de stock permettant de suivre les équipements, leurs emplacements et leurs mouvements."]]],
+  ['Communication',[
+    ["Ce que c'est","La communication en informatique correspond aux échanges professionnels permettant de transmettre des informations techniques de manière claire."],
+    ['Mise en pratique',"Durant mes stages, j'ai régulièrement échangé avec des techniciens, des responsables et des utilisateurs afin de comprendre les besoins et expliquer les solutions mises en place. J'ai également participé à des interventions audiovisuelles où la communication était importante pour assurer le bon déroulement des événements."]]],
+  ['Travail en mode projet',[
+    ["Ce que c'est","Le travail en mode projet consiste à organiser et structurer la réalisation d'un objectif informatique."],
+    ['Mise en pratique',"J'ai notamment travaillé en mode projet lors du développement de l'application web de gestion de stock, avec conception, développement et tests."]]],
+  ['Support informatique',[
+    ["Ce que c'est","Le support informatique regroupe les actions permettant d'assister les utilisateurs et de maintenir les systèmes en fonctionnement."],
+    ['Mise en pratique',"Durant mes stages, j'ai préparé et configuré des postes informatiques, installé des systèmes Windows, créé des comptes utilisateurs, participé à l'intégration des machines dans un environnement professionnel et effectué différents dépannages. J'ai également réalisé des interventions réseau et matérielles."]]],
+];
+
+const GUIDE = [
+  ['Mots de passe',['Utiliser des mots de passe robustes','Éviter la réutilisation','Utiliser un gestionnaire de mots de passe','Activer la double authentification']],
+  ['Réseaux sociaux',['Protéger ses informations personnelles','Vérifier les liens','Se méfier du phishing','Contrôler les paramètres de confidentialité','Signaler les comptes suspects']],
+  ['Utilisation du matériel',["Ne pas installer n'importe quel logiciel",'Effectuer les mises à jour','Faire attention aux périphériques et clés USB',"Respecter les règles de sécurité de l'organisation"]],
+  ['Informatique professionnelle',['Verrouiller son poste','Ne pas partager ses identifiants',"Respecter les droits d'accès",'Sauvegarder les données',"Respecter les règles de l'entreprise"]],
+  ['Données',['Respecter la confidentialité',"Limiter le partage d'informations sensibles",'Effectuer des sauvegardes','Respecter les règles liées aux données personnelles']],
+  ['Communication',['Utiliser correctement la messagerie professionnelle','Vérifier les pièces jointes','Faire attention aux liens','Adopter un comportement professionnel sur les réseaux']],
+  ['Incidents',['<b>Phishing :</b> ne pas cliquer, signaler le message au service informatique','<b>Compte compromis :</b> changer immédiatement le mot de passe et prévenir le service informatique',"<b>Ordinateur infecté :</b> débrancher le poste du réseau et alerter le service informatique","<b>Perte de matériel :</b> déclarer la perte rapidement pour faire verrouiller l'équipement",'<b>Problème réseau :</b> vérifier son poste puis contacter le support','<b>Suspicion de fuite de données :</b> informer immédiatement le responsable ou le service informatique']],
+];
+
+/* ---------- Vues ---------- */
+const article = (a, tag) => a.title ? `
+  <article class="card art">
+    <div class="meta"><span class="chip a">${tag}</span><span>${a.src}</span><span>${a.date}</span></div>
+    <h3>Article ${a.n} — ${a.title}</h3>
+    <p class="pert">Pertinence : ${a.pert}</p>
+    <p class="res">${a.res}</p>
+    <a class="go" href="${a.link}" target="_blank" rel="noopener">Lire l'article ↗</a>
+  </article>` : `
+  <article class="card art">
+    <div class="meta"><span class="chip">${tag}</span></div>
+    <h3>Article ${a.n}</h3>
+    <p style="margin-top:6px">${TODO('Titre, source, date, pertinence et résumé à compléter')}</p>
+  </article>`;
+
+const APPAGE = n => `
+  ${head('Atelier de professionnalisation', `AP${n}`, 'Cette fiche projet sera complétée au fur et à mesure de l\'avancement de l\'atelier.')}
+  <section class="block" style="padding-top:40px">
+    <div class="card"><dl class="kv">
+      ${['Nom du projet','Contexte','Objectifs','Problématique','Environnement technique','Technologies utilisées','Travail réalisé','Compétences mobilisées','Difficultés rencontrées','Solutions apportées','Résultat'].map(k=>`<dt>${k}</dt><dd>${TODO()}</dd>`).join('')}
+    </dl></div>
+  </section>
+  ${sec('Preuves de réalisation','Documents et captures d\'écran', `<div class="gallery">${[1,2,3].map(i=>PH(`Capture d'écran ${i} du projet AP${n}`)).join('')}<div class="ph"><div><b>DOCUMENTS À AJOUTER</b>Compte rendu, documentation technique, fichiers sources…</div></div></div>`)}
+`;
+
+const VIEWS = {
+accueil: () => `
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Portfolio BTS SIO SISR</span>
+      <h1><span class="hi">Bienvenue sur mon portfolio</span><span class="name">Achille Pommier-Raymond</span></h1>
+      <p class="sub">Étudiant en BTS SIO SISR</p>
+      <p class="desc">Parcours, projets, stages, compétences et veille technologique. Je me forme aux systèmes, aux réseaux, à la maintenance informatique et à l'assistance aux utilisateurs, avec un intérêt particulier pour la cybersécurité et les technologies du secteur ferroviaire.</p>
+      <div class="row">
+        <a class="btn p" href="#presentation">Découvrir mon parcours →</a>
+        <a class="btn" href="#accueil" data-scroll="projets">Voir mes projets</a>
+      </div>
+    </div>
+    <div class="term" aria-label="Résumé du profil">
+      <div class="top"><i></i><i></i><i></i><span>achille@sisr — ssh</span></div>
+<pre><span class="p">achille@sisr:~$</span> show profile
+<span class="c">formation</span>   BTS SIO option SISR
+            Lycée de la CCI · Nîmes · 2024–2026
+<span class="c">stages</span>      Montpellier Business School  <span class="up">● done</span>
+            Thermes de Balaruc-les-Bains <span class="up">● done</span>
+<span class="c">stack</span>       Windows Server · AD · Linux · GLPI
+            PHP · MySQL · HTML/CSS
+<span class="c">veille</span>      VR/AR · cybersécurité &amp; réseaux sociaux
+<span class="c">statut</span>      <span class="up">up/up</span> <span class="d">— ouvert aux opportunités</span>
+<span class="p">achille@sisr:~$</span> <span class="cursor"></span></pre>
+    </div>
+  </section>
+  <div class="ticker" aria-hidden="true"><div>${Array(2).fill(['Systèmes & Réseaux','Support informatique','Cybersécurité','GLPI','Windows Server','Linux','Active Directory','BTS SIO SISR'].map((t,i)=>i%2?`<b>${t}</b>`:`<span>${t}</span>`).join('<span>/</span>')).join('<span>/</span>')}</div></div>
+
+  ${sec('01 — Chronologie','Mon parcours', `
+    <ol class="tl">
+      <li class="done"><span class="yr">2024</span><h3>Bac STI2D</h3><p>Lycée polyvalent Irène et Frédéric Joliot-Curie – Sète</p></li>
+      <li class="done"><span class="yr">2024 – 2026</span><h3>BTS SIO SISR</h3><p>Lycée de la CCI – Nîmes</p></li>
+      <li class="done"><span class="yr">Stage 1</span><h3>Montpellier Business School</h3><p>Service informatique / assistance utilisateurs</p></li>
+      <li class="done"><span class="yr">Stage 2 · 2026</span><h3>Thermes de Balaruc-les-Bains</h3><p>Service informatique / développement d'une application de gestion de stock</p></li>
+      <li><span class="yr">Ensuite</span><h3>Projet professionnel</h3><p>${TODO()}</p></li>
+    </ol>`, 'De la STI2D au BTS SIO option SISR, en passant par deux stages en service informatique.')}
+
+  ${sec('02 — Savoir-faire','Mes compétences', `
+    <div class="grid g2">
+      <div class="card skillgrp"><h3>Support & parc</h3>${chips(['Gestion et maintenance du parc informatique','Assistance utilisateurs','Réponse aux incidents et demandes d\'assistance','Support informatique','Gestion de patrimoine informatique','Maintenance informatique','GLPI'],'a')}</div>
+      <div class="card skillgrp"><h3>Systèmes & réseaux</h3>${chips(['Administration systèmes','Réseaux','Windows Server','Linux','Active Directory','Cybersécurité'],'a')}</div>
+      <div class="card skillgrp"><h3>Développement</h3>${chips(['Développement web','HTML / CSS','PHP','MySQL','XAMPP','C#'],'a')}</div>
+      <div class="card skillgrp"><h3>Transversal</h3>${chips(['Travail en mode projet','Communication','Audiovisuel'],'a')}</div>
+    </div>`, 'Compétences acquises ou pratiquées dans le cadre de ma formation, de mes projets et de mes stages.')}
+
+  <div id="projets"></div>
+  ${sec('03 — Ateliers professionnels','Mes projets AP', `
+    <div class="grid g2">
+      ${[1,2].map(n=>`<div class="card"><span class="chip a">AP${n}</span><h3 style="margin-top:14px">${TODO('Nom du projet à compléter')}</h3><p class="muted" style="margin-top:10px">Contexte, objectifs et réalisation à renseigner.</p><a class="go" style="display:inline-block;margin-top:14px;font-weight:600" href="#ap${n}">Voir la fiche projet →</a></div>`).join('')}
+    </div>`, 'Les ateliers de professionnalisation du BTS SIO. Les contenus détaillés seront renseignés au fil de l\'année.')}
+
+  ${sec('04 — Réalisations','Mes projets personnels et scolaires', `
+    <div class="grid" style="gap:20px">
+      <article class="card feat">
+        <div>
+          <div class="row"><span class="chip a">Stage — Thermes de Balaruc-les-Bains</span></div>
+          <h3 style="margin-top:14px;font-size:1.6rem">Application web de gestion de stock</h3>
+          <p style="margin-top:10px">Développement d'un outil interne de gestion du matériel informatique pour le service informatique.</p>
+          <p class="muted" style="margin-top:10px"><b style="color:var(--text)">Objectif :</b> permettre au service informatique de suivre les équipements, leurs emplacements et leurs mouvements.</p>
+          <div style="margin-top:16px">${list(STOCK_FEATURES)}</div>
+          <div style="margin-top:18px">${chips(STOCK_TECH)}</div>
+        </div>
+        <div>${shot('img/dashboard.webp',"Dashboard de l'application de gestion de stock")}<p style="margin-top:14px"><a href="#stages">Voir toutes les captures du projet →</a></p></div>
+      </article>
+      <article class="card feat">
+        <div>
+          <div class="row"><span class="chip a">2023 – 2024</span><span class="chip">Sèt'Expo Sciences</span></div>
+          <h3 style="margin-top:14px;font-size:1.6rem">Maison Eco-Eco</h3>
+          <p style="margin-top:10px">Projet écologique et économique réalisé dans le cadre de Sèt'Expo Sciences.</p>
+          <p class="muted" style="margin-top:10px"><b style="color:var(--text)">Objectif :</b> mesurer la consommation d'un foyer et améliorer les pratiques de consommation quotidiennes.</p>
+          <div style="margin-top:16px">${list(['Configuration des capteurs','Mise en forme du site web','Création d\'une base de données avec phpMyAdmin','Participation à la présentation du projet devant différents jurys lors du salon'])}</div>
+        </div>
+        ${PH('Photos, captures, documents et présentation du projet')}
+      </article>
+    </div>`)}
+
+  ${sec('05 — Expérience professionnelle','Mes stages', `
+    <div class="grid g2">
+      <div class="card"><span class="chip a">Stage 1</span><h3 style="margin-top:14px">Montpellier Business School</h3><p class="muted" style="margin-top:6px">Service informatique / assistance utilisateurs</p><a style="display:inline-block;margin-top:14px;font-weight:600" href="#stages">Voir le détail →</a></div>
+      <div class="card"><span class="chip a">Stage 2</span><h3 style="margin-top:14px">Thermes de Balaruc-les-Bains / SPLETH</h3><p class="muted" style="margin-top:6px">Service informatique · du 20 janvier au 21 février 2026</p><a style="display:inline-block;margin-top:14px;font-weight:600" href="#stages">Voir le détail →</a></div>
+    </div>`, 'Deux expériences en service informatique : support utilisateurs et développement d\'une application web.')}
+
+  ${sec('06 — Actualités technologiques','Ma veille technologique', `
+    <div class="grid g2">
+      <div class="card"><span class="eyebrow" style="margin:0 0 8px">Thème 1</span><h3>Réalité virtuelle / réalité augmentée</h3></div>
+      <div class="card"><span class="eyebrow" style="margin:0 0 8px">Thème 2</span><h3>Cybersécurité dans les réseaux sociaux</h3></div>
+    </div>
+    <p style="margin-top:20px"><a class="btn" href="#veille">Accéder à ma veille technologique →</a></p>`, 'Une veille active et organisée par mois, autour de deux thèmes.')}
+
+  <div class="cta">
+    <div><h2>BTS SIO SISR — Session 2026</h2><p class="muted" style="margin-top:8px">Lycée de la CCI, Nîmes · Une question, un stage, une opportunité ?</p></div>
+    <a class="btn p" href="#contact">Me contacter →</a>
+  </div>
+`,
+
+presentation: () => `
+  ${head('Présentation','Mon parcours')}
+  ${sec('01 — Qui suis-je','Présentation personnelle', `
+    <div class="card" style="display:grid;gap:12px;max-width:760px">
+      <p>Je suis Achille Pommier-Raymond, étudiant en BTS SIO SISR au lycée de la CCI à Nîmes.</p>
+      <p>Je suis particulièrement intéressé par les systèmes et réseaux, le support informatique et la cybersécurité.</p>
+      <p>Mes expériences scolaires et professionnelles m'ont permis de développer des compétences dans la maintenance informatique, l'assistance utilisateurs, la gestion de parc et le travail en mode projet.</p>
+    </div>`)}
+  ${sec('02 — Diplômes','Formation', `
+    <div class="grid g2">
+      <div class="card"><span class="chip a">2024</span><h3 style="margin-top:12px">Baccalauréat STI2D</h3><p class="muted" style="margin-top:6px">Lycée polyvalent Irène et Frédéric Joliot-Curie – Sète</p></div>
+      <div class="card"><span class="chip a">2024 – 2026</span><h3 style="margin-top:12px">BTS Services Informatiques aux Organisations — Option SISR</h3><p class="muted" style="margin-top:6px">Lycée de la CCI – Nîmes</p></div>
+    </div>`)}
+  ${sec('03 — Orientation','Pourquoi le BTS SIO SISR ?', `<div class="card">${TODO()}</div>`)}
+  ${sec('04 — Savoir-faire','Mes compétences', `
+    <div class="grid g3">
+      ${[['Gestion et maintenance du parc informatique','Capacité à participer au suivi, à la préparation, à la configuration et à la maintenance de matériel informatique.'],
+        ['Assistance utilisateurs',"Réponse aux incidents et demandes d'assistance, diagnostic des problèmes et accompagnement des utilisateurs."],
+        ['Travail en mode projet','Participation à des projets informatiques scolaires et professionnels, avec organisation des tâches, conception, développement et tests.'],
+        ['Développement','Pratique du HTML, CSS, PHP, MySQL et C# dans le cadre de projets.'],
+        ['Systèmes et réseaux','Pratique de Windows, Windows Server, Active Directory, réseau et maintenance des postes.'],
+        ['Cybersécurité','Intérêt et sensibilisation aux problématiques de sécurité informatique.']].map(([t,d])=>`<div class="card"><h3>${t}</h3><p class="muted">${d}</p></div>`).join('')}
+    </div>`)}
+  ${sec('05 — Avenir','Mon projet professionnel', `<div class="card">${TODO()}</div>`)}
+  ${sec('06 — Document','Mon CV', `<div class="card row" style="justify-content:space-between"><p class="muted">Le CV au format PDF sera ajouté ici.</p>${TODO('CV à ajouter')}</div>`)}
+  ${sec('07 — Mise en pratique','Compétences professionnelles', `
+    <div style="max-width:860px">
+      ${COMP_PRO.map(([t,parts],i)=>`<details class="acc"${i===0?' open':''}><summary>${t}</summary><div class="in">${parts.map(([h,p])=>`<div><h4>${h}</h4><p>${p}</p></div>`).join('')}</div></details>`).join('')}
+      <details class="acc"><summary>Parcours professionnel</summary><div class="in"><div><h4>Mon parcours comme une progression</h4>${list(['STI2D','BTS SIO SISR','Expériences professionnelles','Stage à Montpellier Business School','Stage aux Thermes de Balaruc-les-Bains','Compétences en systèmes, réseaux, support et développement',`Projet professionnel — ${TODO()}`])}</div></div></details>
+    </div>`, 'Ouvrez une compétence pour découvrir sa définition et sa mise en pratique concrète.')}
+  ${sec('08 — En dehors des cours',"Centres d'intérêt", `
+    <div class="grid g3">
+      <div class="card"><h3>Jeux vidéo</h3><p class="muted">Je joue à différents types de jeux vidéo, notamment League of Legends, Valorant, Rocket League, CS2 et d'autres jeux. Il s'agit d'un centre d'intérêt personnel.</p></div>
+      <div class="card"><h3>Cybersécurité</h3><p class="muted">Intérêt personnel pour la cybersécurité et les problématiques liées à la sécurité informatique.</p></div>
+      <div class="card"><h3>Autres centres d'intérêt</h3><p style="margin-top:10px">${TODO()}</p></div>
+    </div>`)}
+`,
+
+ap1: () => APPAGE(1),
+ap2: () => APPAGE(2),
+
+stages: () => `
+  ${head('Expérience professionnelle','Mes stages',"Deux périodes en entreprise qui m'ont permis de découvrir concrètement le fonctionnement d'un service informatique.")}
+
+  <section class="stage">
+    <div class="stage-h"><div><span class="eyebrow">Stage 1</span><h2>Montpellier Business School</h2><p class="muted" style="margin-top:6px">Service informatique / assistance utilisateurs</p></div>${TODO('Dates exactes à ajouter')}</div>
+    <div class="grid" style="gap:16px">
+      <div class="card"><span class="eyebrow">Présentation de l'entreprise</span>${TODO()}</div>
+      <div class="grid g2">
+        <div class="card"><h3>Missions réalisées</h3>${list(['Assistance utilisateurs','Gestion des tickets utilisateurs','Dépannage matériel et logiciel','Configuration de PC de A à Z','Création de comptes utilisateurs','Gestion des PC pour les examens','Intervention dans les salles de cours','Dépannage et installation de logiciels spécifiques','Régie audiovisuelle','Préparation et gestion technique d\'événements','Maintenance et organisation du matériel informatique'])}</div>
+        <div class="grid" style="gap:16px">
+          <div class="card"><span class="eyebrow">Le Kiosque IT</span>${list(["Service de proximité pour accompagner les utilisateurs de l'école dans leurs besoins techniques quotidiens",'<b>Tickets de prêt :</b> matériel temporaire (souris, claviers, adaptateurs)',"<b>Tickets d'attribution :</b> PC, écrans, équipements fixes",'<b>Tickets pôle RH et tickets standards :</b> résolution de problèmes techniques divers'])}</div>
+          <div class="card"><span class="eyebrow">Gestion du patrimoine</span>${list(['Inventaire et suivi de plus de 3000 équipements','Ordinateurs, téléphones et télévisions','<b>GLPI :</b> gestion et suivi des tickets utilisateurs'])}</div>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div class="card"><span class="eyebrow">Interventions terrain</span>${list(['<b>Configuration accessibilité :</b> mise en place de la commande vocale Windows 11, test et calibrage, formation utilisateur','<b>Maintenance serveur :</b> remplacement d\'un disque dur en salle serveur, diagnostic de panne matérielle, tests post-installation'])}</div>
+        <div class="card"><span class="eyebrow">Déploiement informatique</span>${list(['Connexion au VLAN et intégration au réseau MBS',"Déploiement de l'image ISO via clés USB",'<b>Configuration administrateur :</b> identifiants et permissions',"Nettoyage de la configuration et tests d'intégration à l'environnement MBS"])}</div>
+      </div>
+      <div class="card"><h3>Compétences acquises</h3><div style="margin-top:14px">${chips(['Support utilisateur','Diagnostic de problèmes','Maintenance informatique','Gestion de parc','Communication avec les utilisateurs','Organisation','Travail en environnement professionnel'],'a')}</div></div>
+      <div class="gallery">${PH('Captures GLPI')}${PH('Photos / interventions')}${PH('Compte rendu et preuves de réalisation')}</div>
+    </div>
+  </section>
+
+  <section class="stage" style="margin-top:72px">
+    <div class="stage-h"><div><span class="eyebrow">Stage 2</span><h2>Thermes de Balaruc-les-Bains / SPLETH</h2><p class="muted" style="margin-top:6px">Service informatique</p></div><span class="chip a">Du 20 janvier au 21 février 2026 · 5 semaines</span></div>
+    <div class="grid" style="gap:16px">
+      <div class="card feat">
+        <div><span class="eyebrow">Présentation de l'entreprise</span><p>La SPLETH, située à Balaruc-les-Bains, est chargée de l'exploitation et de la gestion des thermes de la ville. Elle accueille chaque année de nombreux curistes venus suivre des cures thermales, notamment en rhumatologie et en phlébologie. L'entreprise exerce dans le secteur du thermalisme et du tourisme de santé et compte environ 400 employés répartis dans plusieurs services.</p><p style="margin-top:10px">Le service informatique, composé de quatre techniciens, assure la gestion du réseau, l'administration des serveurs, la maintenance du matériel, le support aux utilisateurs et la gestion des comptes et des accès, pour un parc d'environ 300 postes sous Windows 11 intégrés à un domaine Active Directory.</p></div>
+        ${shot('img/thermes.webp','Les Thermes de Balaruc-les-Bains')}
+      </div>
+      <div class="card">
+        <span class="eyebrow">Projet</span><h3 style="font-size:1.6rem">Application web de gestion de stock</h3>
+        <p style="margin-top:10px">Développement d'une application web interne de gestion du matériel informatique.</p>
+        <p class="muted" style="margin-top:8px"><b style="color:var(--text)">Objectif :</b> développer un outil interne permettant au service informatique de suivre les équipements, leurs emplacements et leurs mouvements.</p>
+        <div class="grid g2" style="margin-top:22px">
+          <div><h3>Fonctionnalités développées</h3><div style="margin-top:12px">${list(['Gestion des équipements','Gestion des emplacements','Gestion des réservations','Gestion des mouvements de stock',"Journal d'audit",'Système de réservation avec gestion des conflits',"Carte interactive pour visualiser l'emplacement des équipements",'Génération de codes-barres','Export des données au format CSV'])}</div></div>
+          <div class="grid" style="gap:18px;align-content:start">
+            <div><h3>Technologies utilisées</h3><div style="margin-top:12px">${chips(STOCK_TECH,'a')}</div></div>
+            <dl class="kv" style="grid-template-columns:130px 1fr"><dt>Base de données</dt><dd><code style="font-family:var(--mono);color:var(--accent)">stock_app</code></dd><dt>Hébergement</dt><dd>Serveur Windows Server 2022 utilisant XAMPP avec Apache, MySQL et PHP.</dd></dl>
+          </div>
+        </div>
+      </div>
+      <div class="card"><h3>Compétences acquises</h3><div style="margin-top:14px">${chips(['Développement web','Gestion de base de données','PHP','MySQL','HTML / CSS','Travail en mode projet','Analyse des besoins','Conception d\'une solution informatique','Tests','Organisation et autonomie'],'a')}</div></div>
+      <div><span class="eyebrow" style="margin-top:20px">Captures, photos et documents</span>
+        <div class="gallery">${THERMES_GALLERY.slice(1).map(([s,c])=>shot(s,c)).join('')}</div>
+        <p style="margin-top:16px">${TODO('Compte rendu de stage et autres documents à ajouter')}</p>
+      </div>
+    </div>
+  </section>
+`,
+
+veille: () => `
+  ${head('Recherche · Analyse · Synthèse','Veille technologique',"Dans le cadre de mon BTS SIO SISR, je réalise une veille technologique afin de suivre les évolutions des technologies informatiques et de développer ma capacité à rechercher, sélectionner et analyser des informations techniques.")}
+  <section class="block" style="padding-top:40px">
+    <div class="card" style="max-width:860px"><span class="eyebrow">Méthode</span><p>Ma veille est réalisée régulièrement et organisée par mois. Chaque mois contient au minimum 2 articles sur la réalité virtuelle / réalité augmentée et 2 articles sur la cybersécurité dans les réseaux sociaux, soit un minimum de 4 nouveaux articles par mois.</p></div>
+  </section>
+  ${['vr','cyber'].map((k,i)=>{const c=VEILLE[k];return sec(`Catégorie ${i+1}`, c.title, c.months.map(m=>`<div class="month">${m.label}</div><div class="grid g2">${m.arts.map(a=>article(a,c.tag)).join('')}</div>`).join(''), `<b style="color:var(--text)">Objectif :</b> ${c.obj}`)}).join('')}
+`,
+
+guide: () => `
+  ${head('Bonnes pratiques numériques','Guide de bonne conduite',"Les bonnes pratiques informatiques et numériques à adopter, que ce soit dans un cadre scolaire, professionnel ou personnel.")}
+  <section class="block" style="padding-top:40px">
+    <div class="grid g3">
+      ${GUIDE.map(([t,items],i)=>`<div class="card rule"${i===6?' style="grid-column:1/-1"':''}><span class="n">0${i+1}</span><h3>${t}</h3>${list(items)}</div>`).join('')}
+    </div>
+    <div class="cta" style="margin-top:32px"><p style="max-width:70ch">La sécurité informatique dépend autant des technologies mises en place que du comportement des utilisateurs. Adopter ces bonnes pratiques au quotidien, c'est protéger à la fois ses données, son organisation et ses collègues.</p></div>
+  </section>
+`,
+
+contact: () => `
+  ${head('Me contacter','Contact',"Pour toute question concernant mon parcours, mes projets ou une opportunité de stage ou d'alternance.")}
+  <section class="block" style="padding-top:40px">
+    <div class="card" style="max-width:760px">
+      <dl class="kv">
+        <dt>Nom</dt><dd>Achille Pommier-Raymond</dd>
+        <dt>Formation</dt><dd>BTS SIO SISR — Lycée de la CCI, Nîmes</dd>
+        <dt>Email</dt><dd><span id="mail">achillepommierraymond@gmail.com</span> <button class="btn" style="padding:4px 12px;font-size:.8rem;margin-left:6px" data-copy="achillepommierraymond@gmail.com">Copier</button></dd>
+        <dt>Téléphone</dt><dd>+33 6 46 56 92 20</dd>
+        <dt>LinkedIn</dt><dd>${TODO()}</dd>
+        <dt>GitHub</dt><dd>${TODO()}</dd>
+      </dl>
+      <div class="row" style="margin-top:26px"><a class="btn p" href="mailto:achillepommierraymond@gmail.com">Envoyer un email →</a></div>
+    </div>
+  </section>
+`
+};
+
+/* ---------- Routage ---------- */
+const app = document.getElementById('app');
+const nav = document.getElementById('nav');
+const menuBtn = document.getElementById('menu');
+const links = ROUTES.map(([id,label])=>`<li><a href="#${id}" data-r="${id}">${label}</a></li>`).join('');
+document.getElementById('navlist').innerHTML = links;
+document.getElementById('footnav').innerHTML = links;
+
+function render(){
+  const id = (location.hash||'#accueil').slice(1);
+  const key = VIEWS[id] ? id : 'accueil';
+  app.innerHTML = VIEWS[key]();
+  document.querySelectorAll('a[data-r]').forEach(a=>{ if(a.dataset.r===key) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  document.title = key==='accueil' ? 'Portfolio Achille Pommier-Raymond' : `${ROUTES.find(r=>r[0]===key)[1]} — Achille Pommier-Raymond`;
+  window.scrollTo(0,0);
+  nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false');
+}
+window.addEventListener('hashchange', render);
+render();
+
+menuBtn.addEventListener('click',()=>{const o=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',o)});
+
+/* Lightbox, scroll et copie */
+const lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg'), lbcap=document.getElementById('lbcap');
+document.addEventListener('click', e=>{
+  const s = e.target.closest('.shot');
+  if (s){ lbimg.src=s.dataset.src; lbimg.alt=s.dataset.cap; lbcap.textContent=s.dataset.cap; lb.classList.add('on'); document.getElementById('lbclose').focus(); return; }
+  const sc = e.target.closest('[data-scroll]');
+  if (sc){ e.preventDefault(); document.getElementById(sc.dataset.scroll)?.scrollIntoView({behavior:'smooth'}); return; }
+  const cp = e.target.closest('[data-copy]');
+  if (cp){ navigator.clipboard?.writeText(cp.dataset.copy).then(()=>{cp.textContent='Copié ✓'; setTimeout(()=>cp.textContent='Copier',1800)}).catch(()=>{cp.textContent='Sélectionnez l\'adresse'}); }
+});
+const closeLb=()=>lb.classList.remove('on');
+document.getElementById('lbclose').addEventListener('click',closeLb);
+lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+</script>
+</body>
+</html>
