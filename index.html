@@ -220,7 +220,7 @@ const head = (eyebrow, title, lead='') => `<div class="phead"><span class="eyebr
 const sec = (eyebrow, title, inner, lead='') => `<section class="block"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2>${lead?`<p class="lead">${lead}</p>`:''}<div style="margin-top:28px">${inner}</div></section>`;
 
 const ROUTES = [
-  ['accueil','Accueil'],['presentation','Présentation'],['ap1','AP1'],['ap2','AP2'],
+  ['accueil','Accueil'],['presentation','Présentation'],['ap3','AP3'],['ap4','AP4'],
   ['stages','Stages'],['veille','Veille technologique'],['guide','Guide de bonne conduite'],['contact','Contact']
 ];
 
@@ -332,11 +332,35 @@ const article = (a, tag) => a.title ? `
     <p style="margin-top:6px">${TODO('Titre, source, date, pertinence et résumé à compléter')}</p>
   </article>`;
 
+/* Fiches des ateliers de professionnalisation (AP).
+   Une valeur null = champ pas encore renseigné, affiché « À compléter ». */
+const AP = {
+  3:{name:"Solution technique d'accès sous Windows Server",
+     short:"Active Directory, DNS, DHCP, GPO, partages SMB, bureau à distance (TSE) et pare-feu IPFire.",
+     fields:{
+      'Contexte':"Mettre en place l'infrastructure informatique d'une organisation autour d'un serveur Microsoft Windows Server : gestion centralisée des utilisateurs, services réseau, partage de fichiers, accès à distance et accès Internet sécurisé pour les postes.",
+      'Objectifs':list(["Un annuaire des ressources informatiques (Active Directory)","Une gestion centralisée des utilisateurs et des mots de passe (Active Directory)","L'attribution automatique de la configuration réseau aux postes (DHCP)","Un service de résolution de noms de domaine (DNS)","Une gestion des droits permettant de désactiver certaines fonctionnalités des postes (GPO)","Des partages de fichiers accessibles selon les groupes d'utilisateurs (SMB)","L'accès aux sessions Windows du serveur depuis des clients légers (Terminal Server / bureau à distance)","Un accès Internet sécurisé pour les postes (routeur / pare-feu IPFire)"]),
+      'Problématique':"Comment permettre aux utilisateurs d'accéder au réseau et à leurs ressources sans configurer chaque poste à la main, tout en centralisant la gestion des comptes et des droits et en sécurisant l'accès à Internet ?",
+      'Environnement technique':"Serveur Windows Server (contrôleur de domaine), postes clients Windows et clients légers, routeur / pare-feu IPFire.",
+      'Technologies utilisées':chips(['Windows Server','Active Directory','DNS','DHCP','GPO','Partages SMB','Terminal Server (RDP)','IPFire'],'a')
+     }},
+  4:{name:"Solution de supervision serveur et réseau avec Zabbix",
+     short:"Supervision des serveurs et services avec Zabbix, alertes par mail, et déploiement de postes avec FOG.",
+     fields:{
+      'Contexte':"La CCI utilise de plus en plus de serveurs, pour elle-même et pour ses partenaires : bases de données (MySQL, MSSQL, MongoDB), serveurs web (Apache, IIS), messagerie (Postfix, Exchange), téléphonie (Asterisk), DHCP, DNS, Active Directory, VPN, stockage (NAS)… À chaque panne, le service informatique doit intervenir très vite. Il souhaite donc mettre en place un système de supervision pour suivre la qualité de service et anticiper les pannes.",
+      'Objectifs':list(["Comparer les solutions de supervision gratuites et à communauté active (Zabbix, Nagios…)","Installer Zabbix sur un serveur Debian (MySQL, Apache)","Découvrir automatiquement les machines du réseau par ping (Discovery)","Surveiller des postes Windows et Linux, le pare-feu IPFire, un service (HTTP), un port (MySQL), un appareil via SNMP et un partage réseau","Créer et tester une alerte par mail (espace disque faible, service hors service…)","Installer FOG, démarrer un poste sur le réseau (PXE), restaurer un poste et lancer un outil système (GParted)"]),
+      'Problématique':"Comment suivre en permanence l'état des serveurs et des services critiques afin de détecter rapidement les pannes, d'être alerté et de les anticiper ?",
+      'Environnement technique':"Serveur Debian 11 hébergeant Zabbix (base MySQL / MariaDB, interface web Apache), postes Windows et Linux supervisés, pare-feu IPFire, serveur FOG pour le déploiement de postes.",
+      'Technologies utilisées':chips(['Zabbix','Debian 11','MySQL','Apache','Agent Zabbix','SNMP','FOG','PXE','GParted'],'a')
+     }}
+};
+const AP_FIELDS = ['Contexte','Objectifs','Problématique','Environnement technique','Technologies utilisées','Travail réalisé','Compétences mobilisées','Difficultés rencontrées','Solutions apportées','Résultat'];
+
 const APPAGE = n => `
-  ${head('Atelier de professionnalisation', `AP${n}`, 'Cette fiche projet sera complétée au fur et à mesure de l\'avancement de l\'atelier.')}
+  ${head('Atelier de professionnalisation', `AP${n} — ${AP[n].name}`, AP[n].short)}
   <section class="block" style="padding-top:40px">
     <div class="card"><dl class="kv">
-      ${['Nom du projet','Contexte','Objectifs','Problématique','Environnement technique','Technologies utilisées','Travail réalisé','Compétences mobilisées','Difficultés rencontrées','Solutions apportées','Résultat'].map(k=>`<dt>${k}</dt><dd>${TODO()}</dd>`).join('')}
+      ${AP_FIELDS.map(k=>`<dt>${k}</dt><dd>${AP[n].fields[k] ?? TODO()}</dd>`).join('')}
     </dl></div>
   </section>
   ${sec('Preuves de réalisation','Documents et captures d\'écran', `<div class="gallery">${[1,2,3].map(i=>PH(`Capture d'écran ${i} du projet AP${n}`)).join('')}<div class="ph"><div><b>DOCUMENTS À AJOUTER</b>Compte rendu, documentation technique, fichiers sources…</div></div></div>`)}
@@ -391,7 +415,7 @@ accueil: () => `
   <div id="projets"></div>
   ${sec('03 — Ateliers professionnels','Mes projets AP', `
     <div class="grid g2">
-      ${[1,2].map(n=>`<div class="card"><span class="chip a">AP${n}</span><h3 style="margin-top:14px">${TODO('Nom du projet à compléter')}</h3><p class="muted" style="margin-top:10px">Contexte, objectifs et réalisation à renseigner.</p><a class="go" style="display:inline-block;margin-top:14px;font-weight:600" href="#ap${n}">Voir la fiche projet →</a></div>`).join('')}
+      ${[3,4].map(n=>`<div class="card"><span class="chip a">AP${n}</span><h3 style="margin-top:14px">${AP[n].name}</h3><p class="muted" style="margin-top:10px">${AP[n].short}</p><a class="go" style="display:inline-block;margin-top:14px;font-weight:600" href="#ap${n}">Voir la fiche projet →</a></div>`).join('')}
     </div>`, 'Les ateliers de professionnalisation du BTS SIO. Les contenus détaillés seront renseignés au fil de l\'année.')}
 
   ${sec('04 — Réalisations','Mes projets personnels et scolaires', `
@@ -476,8 +500,8 @@ presentation: () => `
     </div>`)}
 `,
 
-ap1: () => APPAGE(1),
-ap2: () => APPAGE(2),
+ap3: () => APPAGE(3),
+ap4: () => APPAGE(4),
 
 stages: () => `
   ${head('Expérience professionnelle','Mes stages',"Deux périodes en entreprise qui m'ont permis de découvrir concrètement le fonctionnement d'un service informatique.")}
